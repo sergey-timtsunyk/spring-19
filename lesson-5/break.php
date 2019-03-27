@@ -1,0 +1,32 @@
+<?php
+
+$weekDays = [
+    'ru' => [
+        'Понедельник',
+        'Вторник',
+        'Среда',
+        'Четверг',
+        'Пятница',
+        'Суббота',
+        'Воскресенье',
+    ],
+    'en' => [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday',
+    ],
+    'ua' => []
+];
+
+foreach ($weekDays as $key => $days) {
+
+    foreach ($days as $i => $day) {
+        printf('$weekDays[%s][%s] = %s', $key, $i, $day);
+        echo "<br>";
+        break(2);
+    }
+}
