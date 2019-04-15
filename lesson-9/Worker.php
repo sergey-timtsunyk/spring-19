@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-class Worker implements EmployeeInterface
+class _Worker implements EmployeeInterface
 {
     protected const MAX_AGE = 100;
     private const MIN_AGE = 100;

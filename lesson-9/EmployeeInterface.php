@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-interface EmployeeInterface
+interface _EmployeeInterface
 {
     public function setName($name);
 

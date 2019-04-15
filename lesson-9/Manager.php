@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-class Manager extends User implements EmployeeInterface, UserInterface
+class __Manager extends User implements EmployeeInterface, UserInterface
 {
     private $name;
 
