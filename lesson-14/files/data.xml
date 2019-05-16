@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <items>
-    <user age="20">Test</user>
-    <user age="21">Test1</user>
-    <user age="40">Test2</user>
+    <user birthday="1998-08-09">Антон</user>
+    <user birthday="2000-03-11">Валерий</user>
+    <user birthday="1991-07-21">Валентин</user>
 </items>

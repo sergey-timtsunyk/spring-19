@@ -1,0 +1,21 @@
+{
+    "name": "tymtsunyk/lesson-15",
+    "authors": [
+        {
+            "name": "Serhii Tymtsunyk",
+            "email": "serhii.tymtsunyk@corp.mailfire.io"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "dannyvankooten/php-router": "^1.2@alpha"
+    },
+    "require-dev": {},
+    "autoload": {
+        "psr-4": {
+           "App\\": "src/",
+            "Source\\Command\\": "cli/"
+        }
+    }
+}
