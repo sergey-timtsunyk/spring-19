@@ -8,11 +8,12 @@ class UsersController
 {
     public function __construct()
     {
-        var_dump(self::class . '::__construct()');
     }
 
-    public function showAction($name)
+    public function showAction($request, $get)
     {
-        var_dump(self::class);
+        //var_dump($request);
+
+        return 'test';
     }
 }
