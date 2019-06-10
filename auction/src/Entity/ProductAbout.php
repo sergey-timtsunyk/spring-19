@@ -22,11 +22,17 @@ class ProductAbout
     private $id;
 
     /**
+     * @var Product
+     * @ORM\OneToOne(targetEntity="Product", mappedBy="productAbout")
+     */
+    private $product;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="product_name", type="string", length=100, nullable=false)
      */
-    private $productName;
+    private $name;
 
     /**
      * @var string
@@ -55,6 +61,5 @@ class ProductAbout
      * @ORM\Column(name="author_signature", type="string", length=45, nullable=true)
      */
     private $authorSignature;
-
 
 }

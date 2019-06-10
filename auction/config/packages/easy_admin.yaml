@@ -1,7 +1,46 @@
 easy_admin:
+    design:
+        menu:
+            - { label: 'Homepage', url: '/', rel: 'index' }
+            - label: 'Product'
+              children: ['Product', 'ProductCategory', 'ProductSubCategory', 'ProductStatus']
+            - label: 'Address'
+              children: ['Country', 'City', 'Address']
+            - label: 'User'
+              children: ['User']
     entities:
-#        # List the entity class name you want to manage
-        - App\Entity\Country
-        - App\Entity\City
-        - App\Entity\Address
-#        - App\Entity\User
+        Country:
+            class:  App\Entity\Country
+            form:
+                fields:
+                    - 'name'
+        City:
+            class: App\Entity\City
+        Address:
+            class: App\Entity\Address
+
+        Product:
+            class: App\Entity\Product
+            label: 'Лот'
+            list:
+                fields: ['id', 'code', 'productAbout.name', 'category.name']
+        ProductCategory:
+            class: App\Entity\ProductCategory
+            label: 'Категория'
+            list:
+                dql_filter: 'entity.parent IS NULL'
+                fields: ['id', 'name']
+            form:
+                fields: ['name']
+        ProductSubCategory:
+            class: App\Entity\ProductCategory
+            label: 'Подкатегория'
+            list:
+                dql_filter: 'entity.parent > 0'
+        ProductStatus:
+            class: App\Entity\ProductStatus
+            label: 'Статус'
+            disabled_actions: ['edit', 'new', 'delete']
+
+        User:
+            class: App\Entity\User

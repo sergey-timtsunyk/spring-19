@@ -28,5 +28,28 @@ class ProductStatus
      */
     private $nameStatus;
 
+    /**
+     * @return int
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNameStatus(): ?string
+    {
+        return $this->nameStatus;
+    }
+
+    /**
+     * @param string $nameStatus
+     */
+    public function setNameStatus(string $nameStatus): void
+    {
+        $this->nameStatus = $nameStatus;
+    }
 
 }

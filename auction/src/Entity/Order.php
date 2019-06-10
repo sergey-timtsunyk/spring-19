@@ -52,9 +52,9 @@ class Order
     private $price;
 
     /**
-     * @var \Product
+     * @var Product
      *
-     * @ORM\ManyToOne(targetEntity="Product")
+     * @ORM\OneToOne(targetEntity="Product")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      * })
