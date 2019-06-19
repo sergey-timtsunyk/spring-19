@@ -3,27 +3,40 @@ easy_admin:
         menu:
             - { label: 'Homepage', url: '/', rel: 'index' }
             - label: 'Product'
-              children: ['Product', 'ProductCategory', 'ProductSubCategory', 'ProductStatus']
-            - label: 'Address'
-              children: ['Country', 'City', 'Address']
+              children: ['Product', 'ProductCategory', 'ProductSubCategory']
+            - label: 'Order'
+
             - label: 'User'
               children: ['User']
     entities:
-        Country:
-            class:  App\Entity\Country
-            form:
-                fields:
-                    - 'name'
-        City:
-            class: App\Entity\City
-        Address:
-            class: App\Entity\Address
 
         Product:
             class: App\Entity\Product
             label: 'Лот'
             list:
-                fields: ['id', 'code', 'productAbout.name', 'category.name']
+                fields:
+                    - {property: 'id' , label: 'ID'}
+                    - {property: 'code' , label: 'Code', type: 'string'}
+                    - {property: 'about' , label: 'Name'}
+                    - {property: 'category.name' , label: 'Category'}
+            form:
+                fields:
+                    - { type: 'tab' , label: 'Basic Information' }
+                    - 'code'
+                    - 'category'
+                    - 'owner'
+                    - 'price'
+                    - { type: 'tab', label: 'About Information', icon: 'info' }
+                    - 'about'
+                    - 'startAt'
+                    - 'finishAt'
+                    - { type: 'tab', label: 'Photo Information', icon: 'photo' }
+                    - 'photo'
+
+            templates:
+                edit: 'admin/Product/edit.html.twig'
+                new: 'admin/Product/new.html.twig'
+
         ProductCategory:
             class: App\Entity\ProductCategory
             label: 'Категория'
@@ -32,15 +45,12 @@ easy_admin:
                 fields: ['id', 'name']
             form:
                 fields: ['name']
+
         ProductSubCategory:
             class: App\Entity\ProductCategory
             label: 'Подкатегория'
             list:
                 dql_filter: 'entity.parent > 0'
-        ProductStatus:
-            class: App\Entity\ProductStatus
-            label: 'Статус'
-            disabled_actions: ['edit', 'new', 'delete']
 
         User:
             class: App\Entity\User

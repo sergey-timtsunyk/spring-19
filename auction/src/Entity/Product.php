@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Product
  *
- * @ORM\Table(name="product", indexes={@ORM\Index(name="product_order_id_fk", columns={"order_id"}), @ORM\Index(name="fk_product_price1_idx", columns={"price_id"}), @ORM\Index(name="fk_product_author_name1_idx", columns={"author_id"}), @ORM\Index(name="fk_product_product_status1_idx", columns={"product_status_id"}), @ORM\Index(name="product_product_about_id_fk", columns={"product_about_id"}), @ORM\Index(name="fk_product_user1_idx", columns={"owner_id"}), @ORM\Index(name="fk_product_product_category1_idx", columns={"product_category_id"})})
+ * @ORM\Table(name="product", uniqueConstraints={@ORM\UniqueConstraint(name="UNIQ_D34A04ADD614C7E7", columns={"price"})}, indexes={@ORM\Index(name="fk_product_product_category1_idx", columns={"product_category_id"})})
  * @ORM\Entity
  */
 class Product
@@ -20,6 +20,41 @@ class Product
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="owner", type="string", length=255, nullable=true)
+     */
+    private $owner;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="price", type="string", length=25, nullable=true)
+     */
+    private $price;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="photo", type="string", length=255, nullable=true)
+     */
+    private $photo;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="about", type="text", length=65535, nullable=true)
+     */
+    private $about;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="status", type="string", length=25, nullable=true)
+     */
+    private $status;
 
     /**
      * @var int
@@ -43,19 +78,9 @@ class Product
     private $finishAt;
 
     /**
-     * @var Price
-     *
-     * @ORM\OneToOne(targetEntity="Price")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="price_id", referencedColumnName="id")
-     * })
-     */
-    private $price;
-
-    /**
      * @var ProductCategory
      *
-     * @ORM\ManyToOne(targetEntity="ProductCategory")
+     * @ORM\ManyToOne(targetEntity="ProductCategory", inversedBy="products")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="product_category_id", referencedColumnName="id")
      * })
@@ -63,34 +88,11 @@ class Product
     private $category;
 
     /**
-     * @var ProductStatus
+     * @var BidHistory
      *
-     * @ORM\ManyToOne(targetEntity="ProductStatus")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="product_status_id", referencedColumnName="id")
-     * })
+     * @ORM\OneToMany(targetEntity="BidHistory", mappedBy="product")
      */
-    private $productStatus;
-
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
-     * })
-     */
-    private $owner;
-
-    /**
-     * @var Author
-     *
-     * @ORM\ManyToOne(targetEntity="Author")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="author_id", referencedColumnName="id")
-     * })
-     */
-    private $author;
+    private $bitHistories;
 
     /**
      * @var Order
@@ -100,32 +102,108 @@ class Product
     private $order;
 
     /**
-     * @var ProductAbout
-     *
-     * @ORM\OneToOne(targetEntity="ProductAbout", inversedBy="product")
-     * @ORM\JoinColumn(name="product_about_id", referencedColumnName="id")
+     * Product constructor.
+     * @param int $id
      */
-    private $productAbout;
-
-    /**
-     * @var ProductPhoto
-     *
-     * @ORM\OneToMany(targetEntity="ProductPhoto", mappedBy="product")
-     */
-    private $photos;
-
-    /**
-     * @return int
-     */
-    public function getId(): ?int
+    public function __construct()
     {
-        return $this->id;
+        $dateTime = new \DateTime();
+        $this->startAt = clone $dateTime->modify('+ 1 day');
+        $this->finishAt = $dateTime->modify('+ 6 day');
     }
 
     /**
      * @return int
      */
-    public function getCode(): int
+        public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getOwner(): ?string
+    {
+        return $this->owner;
+    }
+
+    /**
+     * @param string|null $owner
+     */
+    public function setOwner(?string $owner): void
+    {
+        $this->owner = $owner;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPrice(): ?string
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param string|null $price
+     */
+    public function setPrice(?string $price): void
+    {
+        $this->price = $price;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    /**
+     * @param string|null $photo
+     */
+    public function setPhoto(?string $photo): void
+    {
+        $this->photo = $photo;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAbout(): ?string
+    {
+        return $this->about;
+    }
+
+    /**
+     * @param string|null $about
+     */
+    public function setAbout(?string $about): void
+    {
+        $this->about = $about;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string|null $status
+     */
+    public function setStatus(?string $status): void
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCode(): ?int
     {
         return $this->code;
     }
@@ -141,7 +219,7 @@ class Product
     /**
      * @return \DateTime
      */
-    public function getStartAt(): \DateTime
+    public function getStartAt(): ?\DateTime
     {
         return $this->startAt;
     }
@@ -157,7 +235,7 @@ class Product
     /**
      * @return \DateTime
      */
-    public function getFinishAt(): \DateTime
+    public function getFinishAt(): ?\DateTime
     {
         return $this->finishAt;
     }
@@ -171,25 +249,9 @@ class Product
     }
 
     /**
-     * @return Price
-     */
-    public function getPrice(): Price
-    {
-        return $this->price;
-    }
-
-    /**
-     * @param Price $price
-     */
-    public function setPrice(Price $price): void
-    {
-        $this->price = $price;
-    }
-
-    /**
      * @return ProductCategory
      */
-    public function getCategory(): ProductCategory
+    public function getCategory(): ?ProductCategory
     {
         return $this->category;
     }
@@ -203,51 +265,19 @@ class Product
     }
 
     /**
-     * @return ProductStatus
+     * @return BidHistory
      */
-    public function getProductStatus(): ProductStatus
+    public function getBitHistories(): BidHistory
     {
-        return $this->productStatus;
+        return $this->bitHistories;
     }
 
     /**
-     * @param ProductStatus $productStatus
+     * @param BidHistory $bitHistories
      */
-    public function setProductStatus(ProductStatus $productStatus): void
+    public function setBitHistories(BidHistory $bitHistories): void
     {
-        $this->productStatus = $productStatus;
-    }
-
-    /**
-     * @return User
-     */
-    public function getOwner(): User
-    {
-        return $this->owner;
-    }
-
-    /**
-     * @param User $owner
-     */
-    public function setOwner(User $owner): void
-    {
-        $this->owner = $owner;
-    }
-
-    /**
-     * @return Author
-     */
-    public function getAuthor(): Author
-    {
-        return $this->author;
-    }
-
-    /**
-     * @param Author $author
-     */
-    public function setAuthor(Author $author): void
-    {
-        $this->author = $author;
+        $this->bitHistories = $bitHistories;
     }
 
     /**
@@ -264,37 +294,5 @@ class Product
     public function setOrder(Order $order): void
     {
         $this->order = $order;
-    }
-
-    /**
-     * @return ProductAbout
-     */
-    public function getProductAbout(): ProductAbout
-    {
-        return $this->productAbout;
-    }
-
-    /**
-     * @param ProductAbout $productAbout
-     */
-    public function setProductAbout(ProductAbout $productAbout): void
-    {
-        $this->productAbout = $productAbout;
-    }
-
-    /**
-     * @return ProductPhoto
-     */
-    public function getPhotos(): ProductPhoto
-    {
-        return $this->photos;
-    }
-
-    /**
-     * @param ProductPhoto $photos
-     */
-    public function setPhotos(ProductPhoto $photos): void
-    {
-        $this->photos = $photos;
     }
 }

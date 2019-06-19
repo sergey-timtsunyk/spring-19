@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * BidHistory
  *
- * @ORM\Table(name="bid_history", indexes={@ORM\Index(name="fk_bid_history_product1_idx", columns={"product_id"}), @ORM\Index(name="fk_bid_history_user1_idx", columns={"user_id"})})
+ * @ORM\Table(name="bid_history", indexes={@ORM\Index(name="bid_history_user_id_fk", columns={"user_id"}), @ORM\Index(name="fk_bid_history_product1_idx", columns={"product_id"})})
  * @ORM\Entity
  */
 class BidHistory
@@ -36,9 +36,9 @@ class BidHistory
     private $bidAmount;
 
     /**
-     * @var \Product
+     * @var Product
      *
-     * @ORM\ManyToOne(targetEntity="Product")
+     * @ORM\ManyToOne(targetEntity="Product", inversedBy="bitHistories")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      * })
@@ -46,14 +46,13 @@ class BidHistory
     private $product;
 
     /**
-     * @var \User
+     * @var User
      *
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="bitHistories")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
      */
     private $user;
-
 
 }

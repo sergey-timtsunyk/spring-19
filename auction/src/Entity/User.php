@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * User
  *
- * @ORM\Table(name="user", indexes={@ORM\Index(name="fk_user_address1_idx", columns={"address_id"}), @ORM\Index(name="fk_user_user_role1_idx", columns={"user_role_id"}), @ORM\Index(name="fk_user_currency_idx", columns={"currency_id"}), @ORM\Index(name="fk_user_profile_user1_idx", columns={"profile_user_id"})})
+ * @ORM\Table(name="user")
  * @ORM\Entity
  */
 class User
@@ -24,49 +24,84 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="status", type="string", length=20, nullable=false)
+     * @ORM\Column(name="first_name", type="string", length=45, nullable=false)
      */
-    private $status;
+    private $firstName;
 
     /**
-     * @var \Address
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="Address")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="address_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="last_name", type="string", length=45, nullable=false)
+     */
+    private $lastName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=45, nullable=false)
+     */
+    private $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="password", type="string", length=200, nullable=false)
+     */
+    private $password;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="phone", type="string", length=45, nullable=false)
+     */
+    private $phone;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="address", type="string", length=150, nullable=true)
      */
     private $address;
 
     /**
-     * @var \Currency
+     * @var string|null
      *
-     * @ORM\ManyToOne(targetEntity="Currency")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="currency_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="role", type="string", length=15, nullable=true, options={"default"="USER"})
      */
-    private $currency;
+    private $role = 'USER';
 
     /**
-     * @var \UserProfile
+     * @var string|null
      *
-     * @ORM\ManyToOne(targetEntity="UserProfile")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="profile_user_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="status", type="string", length=15, nullable=true, options={"default"="NEW"})
      */
-    private $profileUser;
+    private $status = 'NEW';
 
     /**
-     * @var \UserRole
+     * @var string|null
      *
-     * @ORM\ManyToOne(targetEntity="UserRole")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_role_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="identific_code", type="string", length=45, nullable=true)
      */
-    private $userRole;
+    private $identificCode;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_registration", type="datetime", nullable=false)
+     */
+    private $dateRegistration;
 
+    /**
+     * @var Order[]
+     *
+     * @ORM\OneToMany(targetEntity="Order", mappedBy="user")
+     */
+    private $orders;
+
+    /**
+     * @var BidHistory[]
+     *
+     * @ORM\OneToMany(targetEntity="BidHistory", mappedBy="user")
+     */
+    private $bitHistories;
 }

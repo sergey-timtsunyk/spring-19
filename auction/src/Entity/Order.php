@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Order
  *
- * @ORM\Table(name="order", indexes={@ORM\Index(name="fk_order_price1_idx", columns={"price_id"}), @ORM\Index(name="fk_order_order_status1_idx", columns={"order_status_id"}), @ORM\Index(name="fk_order_product1_idx", columns={"product_id"}), @ORM\Index(name="fk_order_bank_details1_idx", columns={"bank_details_id"})})
+ * @ORM\Table(name="order", uniqueConstraints={@ORM\UniqueConstraint(name="UNIQ_F52993984584665A", columns={"product_id"})}, indexes={@ORM\Index(name="fk_order_product1_idx", columns={"product_id"}), @ORM\Index(name="order_user_id_fk", columns={"user_id"})})
  * @ORM\Entity
  */
 class Order
@@ -20,46 +20,45 @@ class Order
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-
     /**
-     * @var \BankDetails
+     * @var string|null
      *
-     * @ORM\ManyToOne(targetEntity="BankDetail")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="bank_details_id", referencedColumnName="id")
-     * })
-     */
-    private $bankDetails;
-
-    /**
-     * @var \OrderStatus
-     *
-     * @ORM\ManyToOne(targetEntity="OrderStatus")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="order_status_id", referencedColumnName="id")
-     * })
-     */
-    private $orderStatus;
-
-    /**
-     * @var \Price
-     *
-     * @ORM\ManyToOne(targetEntity="Price")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="price_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="price", type="string", length=20, nullable=true)
      */
     private $price;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(name="payment_details", type="text", length=65535, nullable=true)
+     */
+    private $paymentDetails;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="status", type="string", length=25, nullable=true)
+     */
+    private $status;
+
+
+    /**
      * @var Product
      *
-     * @ORM\OneToOne(targetEntity="Product")
+     * @ORM\OneToOne(targetEntity="Product", inversedBy="order")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      * })
      */
     private $product;
 
-
+    /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="orders")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * })
+     */
+    private $user;
 }
