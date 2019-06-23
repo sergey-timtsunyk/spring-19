@@ -3,15 +3,22 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Product
  *
  * @ORM\Table(name="product", uniqueConstraints={@ORM\UniqueConstraint(name="UNIQ_D34A04ADD614C7E7", columns={"price"})}, indexes={@ORM\Index(name="fk_product_product_category1_idx", columns={"product_category_id"})})
  * @ORM\Entity
+ * @Vich\Uploadable
  */
 class Product
 {
+    private const STATUS_NEW = 'NEW';
+    private const STATUS_ACTIVE = 'ACTIVE';
+    private const STATUS_HIDE = 'HIDE';
+
     /**
      * @var int
      *
@@ -20,6 +27,13 @@ class Product
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="name", type="string", length=50, nullable=true)
+     */
+    private $name;
 
     /**
      * @var string|null
@@ -41,6 +55,12 @@ class Product
      * @ORM\Column(name="photo", type="string", length=255, nullable=true)
      */
     private $photo;
+
+    /**
+     * @Vich\UploadableField(mapping="product_photo", fileNameProperty="photo")
+     * @var File
+     */
+    private $photoFile;
 
     /**
      * @var string|null
@@ -108,6 +128,7 @@ class Product
     public function __construct()
     {
         $dateTime = new \DateTime();
+        $this->newStatus();
         $this->startAt = clone $dateTime->modify('+ 1 day');
         $this->finishAt = $dateTime->modify('+ 6 day');
     }
@@ -294,5 +315,69 @@ class Product
     public function setOrder(Order $order): void
     {
         $this->order = $order;
+    }
+
+    /**
+     * @return File
+     */
+    public function getPhotoFile(): ?File
+    {
+        return $this->photoFile;
+    }
+
+    /**
+     * @param File $photoFile
+     */
+    public function setPhotoFile(File $photoFile = null): void
+    {
+        $this->photoFile = $photoFile;
+    }
+
+    public function activeStatus(): void
+    {
+        $this->status = self::STATUS_ACTIVE;
+    }
+
+    public function newStatus(): void
+    {
+        $this->status = self::STATUS_NEW;
+    }
+
+    public function hideStatus(): void
+    {
+        $this->status = self::STATUS_HIDE;
+    }
+
+    public function isNew(): bool
+    {
+        return $this->status === self::STATUS_NEW;
+    }
+
+
+    public function isActive(): bool
+    {
+        return $this->status === self::STATUS_ACTIVE;
+    }
+
+
+    public function isHide(): bool
+    {
+        return $this->status === self::STATUS_HIDE;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string|null $name
+     */
+    public function setName(?string $name): void
+    {
+        $this->name = $name;
     }
 }

@@ -14,24 +14,29 @@ easy_admin:
             class: App\Entity\Product
             label: 'Лот'
             list:
+                actions: ['active', 'hide']
                 fields:
                     - {property: 'id' , label: 'ID'}
+                    - {property: 'name' , label: 'Name', type: 'string'}
                     - {property: 'code' , label: 'Code', type: 'string'}
-                    - {property: 'about' , label: 'Name'}
+                    - {property: 'price' , label: 'Price'}
                     - {property: 'category.name' , label: 'Category'}
+                    - {property: 'status' , label: 'Status'}
+                    - {property: 'photo', label: 'Photo', type: 'image', base_path: '/images/products' }
             form:
                 fields:
-                    - { type: 'tab' , label: 'Basic Information' }
+                    - { type: 'group' , label: 'Basic Information' }
+                    - 'name'
                     - 'code'
                     - 'category'
                     - 'owner'
                     - 'price'
-                    - { type: 'tab', label: 'About Information', icon: 'info' }
-                    - 'about'
-                    - 'startAt'
-                    - 'finishAt'
-                    - { type: 'tab', label: 'Photo Information', icon: 'photo' }
-                    - 'photo'
+                    - { type: 'group', label: 'About Information', icon: 'info' }
+                    - { property: 'about', type: 'fos_ckeditor'}
+                    - { property: 'startAt', format: 'j/n/Y'}
+                    - { property: 'finishAt', format: 'd/m/Y'}
+                    - { type: 'group', label: 'Photo Information', icon: 'photo' }
+                    - { property: 'photoFile', type: 'vich_file' }
 
             templates:
                 edit: 'admin/Product/edit.html.twig'

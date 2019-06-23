@@ -3,14 +3,15 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\User as BaseUser;
 
 /**
  * User
  *
- * @ORM\Table(name="user")
+ * @ORM\Table(name="users")
  * @ORM\Entity
  */
-class User
+class User extends BaseUser
 {
     /**
      * @var int
@@ -19,7 +20,7 @@ class User
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
@@ -34,20 +35,6 @@ class User
      * @ORM\Column(name="last_name", type="string", length=45, nullable=false)
      */
     private $lastName;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=45, nullable=false)
-     */
-    private $email;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string", length=200, nullable=false)
-     */
-    private $password;
 
     /**
      * @var string

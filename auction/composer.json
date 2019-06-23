@@ -6,13 +6,17 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "easycorp/easyadmin-bundle": "^2.1",
+        "friendsofsymfony/ckeditor-bundle": "^2.1",
+        "friendsofsymfony/user-bundle": "~2.0",
         "sensio/framework-extra-bundle": "^5.3",
         "symfony/console": "4.3.*",
         "symfony/dotenv": "4.3.*",
         "symfony/flex": "^1.1",
         "symfony/framework-bundle": "4.3.*",
         "symfony/orm-pack": "^1.0",
-        "symfony/yaml": "4.3.*"
+        "symfony/swiftmailer-bundle": "^3.2",
+        "symfony/yaml": "4.3.*",
+        "vich/uploader-bundle": "^1.9"
     },
     "config": {
         "preferred-install": {
