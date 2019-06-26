@@ -59,3 +59,27 @@ easy_admin:
 
         User:
             class: App\Entity\User
+            list:
+                actions: ['show']
+                fields:
+                    - {property: 'id' , label: 'ID'}
+                    - {property: 'username' , label: 'username', type: 'string'}
+                    - {property: 'firstName' , label: 'First name', type: 'string'}
+                    - {property: 'lastName' , label: 'Last name', type: 'string'}
+                    - {property: 'email' , label: 'email'}
+                    - {property: 'phone' , label: 'phone'}
+                    - {property: 'address' , label: 'address'}
+                    - {property: 'roles' , label: 'roles'}
+                    - {property: 'enabled' , label: 'Enabled'}
+                    - {property: 'status' , label: 'status'}
+                    - {property: 'identificCode' , label: 'identificCode'}
+            form:
+                fields:
+                    - 'firstName'
+                    - 'lastName'
+                    - 'email'
+                    - 'password'
+                    - 'address'
+                    - 'roles'
+                    - 'status'
+                    - 'identificCode'

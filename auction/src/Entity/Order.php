@@ -61,4 +61,12 @@ class Order
      * })
      */
     private $user;
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return (string)$this->id;
+    }
 }
