@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block menu %}
+    <div class="nav-scroller py-1 mb-2">
+        <nav class="nav d-flex justify-content-between">
+            <a class="p-2 text-muted" href="{{ path('web_main') }}">Active slot</a>
+            <a class="p-2 text-muted active" href="#">Slot</a>
+            <a class="p-2 text-muted" href="{{ path('web_news') }}">News</a>
+            <a class="p-2 text-muted" href="{{ path('web_faq') }}">FAQ</a>
+            <a class="p-2 text-muted" href="{{ path('web_contact_us') }}">Contact Us</a>
+        </nav>
+    </div>
+{% endblock %}
+
+{% block main %}
+
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-md-8 blog-main">
+                <div>Катеогрия: {{ product.category }}</div>
+                <div>Название: {{ product.name }}</div>
+                <div>Продавець: {{ product.owner }}</div>
+                <div>Начало торга: {{ product.startAt|date("d F Y") }}</div>
+                <div>Окончание торга: {{ product.finishAt|date("d F Y") }}</div>
+                <div>Описание: {{ product.about }}</div>
+                <div style="background-color: #9fa9b7">
+                    <div>Стартовая цена: {{ product.price }}</div>
+                    <div>Количество ставок: {{ product.bitHistories|length }}</div>
+                    {% if product.lastBitHistory %}
+                        <div>Последняя ставка: {{ product.lastBitHistory }}</div>
+                    {% endif %}
+                </div>
+
+                <form method="post" action="{{ path('take_bid_product', {"id":product.id}) }}">
+                    <label>Сделайте свою ставку:</label><br/>
+                    <input type="number" name="amount" placeholder="">
+                    <button>Take</button>
+                </form>
+
+            </div>
+        </div>
+    </main>
+
+
+{% endblock %}

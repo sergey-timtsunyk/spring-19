@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -108,7 +109,7 @@ class Product
     private $category;
 
     /**
-     * @var BidHistory
+     * @var BidHistory[]|ArrayCollection`
      *
      * @ORM\OneToMany(targetEntity="BidHistory", mappedBy="product")
      */
@@ -286,9 +287,9 @@ class Product
     }
 
     /**
-     * @return BidHistory
+     * @return BidHistory[]|iterable
      */
-    public function getBitHistories(): BidHistory
+    public function getBitHistories(): iterable
     {
         return $this->bitHistories;
     }
@@ -299,6 +300,14 @@ class Product
     public function setBitHistories(BidHistory $bitHistories): void
     {
         $this->bitHistories = $bitHistories;
+    }
+
+    /**
+     * @return BidHistory|null
+     */
+    public function getLastBitHistory(): ?BidHistory
+    {
+        return $this->bitHistories->last() ?: null;
     }
 
     /**
