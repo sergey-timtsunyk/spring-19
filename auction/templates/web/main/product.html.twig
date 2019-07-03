@@ -25,15 +25,22 @@
                 <div>Описание: {{ product.about }}</div>
                 <div style="background-color: #9fa9b7">
                     <div>Стартовая цена: {{ product.price }}</div>
-                    <div>Количество ставок: {{ product.bitHistories|length }}</div>
+                    <div>Количество ставок:
+                        <span id="count-bids"> {{ product.bitHistories|length }}</span>
+                    </div>
+                    <span id="bid-list">
                     {% if product.lastBitHistory %}
-                        <div>Последняя ставка: {{ product.lastBitHistory }}</div>
+                        {%  for bit in product.lastBitHistory %}
+                            <div>Cтавка: [{{ bit.getBidTime()|date("d F Y") }}] {{ bit.getBidAmount() }} - {{ bit.getUser() }}</div>
+                        {% endfor %}
                     {% endif %}
+                    </span>
+
                 </div>
 
-                <form method="post" action="{{ path('take_bid_product', {"id":product.id}) }}">
+                <form method="post" action="{{ path('take_bid_product', {"id":product.id}) }}" >
                     <label>Сделайте свою ставку:</label><br/>
-                    <input type="number" name="amount" placeholder="">
+                    <input id="amount" type="number" name="amount" placeholder="">
                     <button>Take</button>
                 </form>
 
@@ -41,5 +48,48 @@
         </div>
     </main>
 
+{% endblock %}
 
+{% block javascripts %}
+<script>
+    $(document).ready(function(){
+
+        $("form").submit(function(){
+            var action = $(this).attr('action');
+            var amount = $("input[name=amount]").val();
+            var http = new XMLHttpRequest();
+            var params = 'amount=' + amount;
+            http.open('POST', action, true);
+
+            //Send the proper header information along with the request
+            http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+            http.onreadystatechange = function() {//Call a function when the state changes.
+                if(http.readyState == 4 && http.status == 200) {
+                    var response = JSON.parse(http.responseText);
+                    $('#count-bids').html(response.count);
+
+                    bidString = '';
+                    for(var key in response.bids) {
+                        var bid = response.bids[key];
+                        var date = new Date(bid.datetime.date);
+
+                        bidString = bidString + '<div>Cтавка: [' +date+'] '+bid.amount+'-'+bid.user_name+'</div>';
+                    }
+
+                    $('#bid-list').html(bidString);
+
+                }
+                if(http.readyState == 4 && http.status == 400) {
+                    alert(http.responseText);
+                }
+            }
+            http.send(params);
+
+            return false;
+        });
+    });
+
+
+</script>
 {% endblock %}

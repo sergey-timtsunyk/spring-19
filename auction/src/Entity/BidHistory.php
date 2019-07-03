@@ -55,4 +55,73 @@ class BidHistory
      */
     private $user;
 
+    public function __construct()
+    {
+        $this->bidTime = new \DateTime();
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getBidTime(): \DateTime
+    {
+        return $this->bidTime;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBidAmount(): string
+    {
+        return $this->bidAmount;
+    }
+
+    /**
+     * @param string $bidAmount
+     */
+    public function setBidAmount(string $bidAmount): void
+    {
+        $this->bidAmount = $bidAmount;
+    }
+
+    /**
+     * @return Product
+     */
+    public function getProduct(): Product
+    {
+        return $this->product;
+    }
+
+    /**
+     * @param Product $product
+     */
+    public function setProduct(Product $product): void
+    {
+        $this->product = $product;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser(User $user): void
+    {
+        $this->user = $user;
+    }
+
 }

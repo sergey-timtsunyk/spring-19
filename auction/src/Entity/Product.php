@@ -303,11 +303,11 @@ class Product
     }
 
     /**
-     * @return BidHistory|null
+     * @return BidHistory[]|iterable
      */
-    public function getLastBitHistory(): ?BidHistory
+    public function getLastBitHistory(): iterable
     {
-        return $this->bitHistories->last() ?: null;
+        return $this->bitHistories;
     }
 
     /**
@@ -367,7 +367,6 @@ class Product
     {
         return $this->status === self::STATUS_ACTIVE;
     }
-
 
     public function isHide(): bool
     {
