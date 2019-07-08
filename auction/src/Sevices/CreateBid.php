@@ -31,7 +31,7 @@ class CreateBid
      */
     public function create(User $user, Product $product, string $amount): bool
     {
-        if (!$product->isActive() && !$user->isEnabled()) {
+        if (!($product->isActive() && $user->isEnabled())) {
             return false;
         }
 
@@ -54,7 +54,6 @@ class CreateBid
 
             return false;
         }
-
 
         return true;
     }
